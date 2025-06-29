@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="PMS-PDA 仓库分拣系统 - Progressive Web App，支持离线作业和数据同步" />
+  <meta name="keywords" content="仓库管理,分拣系统,PWA,离线应用,条码扫描" />
+  <meta name="author" content="PMS Team" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1989fa" />
+  <meta name="background-color" content="#ffffff" />
+  <meta name="display" content="standalone" />
+  <meta name="orientation" content="portrait" />
+  
+  <!-- Apple Meta Tags -->
+  <!-- <meta name="apple-mobile-web-app-capable" content="yes" /> -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="PMS-PDA" />
+  <link rel="apple-touch-icon" href="/logo.svg" />
+  <link rel="apple-touch-startup-image" href="/logo.svg" />
+  
+  <!-- Microsoft Meta Tags -->
+  <meta name="msapplication-TileColor" content="#1989fa" />
+  <meta name="msapplication-TileImage" content="/logo.svg" />
+  <meta name="msapplication-config" content="/browserconfig.xml" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate icon" href="/favicon.ico" />
+  
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Security Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  
+  <title>PMS-PDA 仓库分拣系统</title>
+  
+  <style>
+    /* 加载动画样式 */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1989fa 0%, #0066cc 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+    
+    .loading-text {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    .loading-subtitle {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* 隐藏加载屏幕 */
+    .loading-hidden {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    
+    /* 应用容器 */
+    #app {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    /* 全局样式重置 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #f8f9fa;
+      overflow-x: hidden;
+    }
+    
+    /* 禁用选择和拖拽 */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* 输入框允许选择 */
+    input, textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+    
+    /* PWA 安装提示样式 */
+    .install-prompt {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      display: none;
+      z-index: 1000;
+      animation: slideUp 0.3s ease;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .install-prompt.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- 加载屏幕 -->
+  <div id="loading">
+    <img src="/logo.svg" alt="PMS-PDA" class="loading-logo" />
+    <div class="loading-text">PMS-PDA</div>
+    <div class="loading-subtitle">仓库分拣系统</div>
+    <div class="loading-spinner"></div>
+  </div>
+  
+  <!-- 应用容器 -->
+  <div id="app"></div>
+  
+  <!-- PWA 安装提示 -->
+  <div id="installPrompt" class="install-prompt">
+    <div class="install-content">
+      <img src="/logo.svg" alt="PMS-PDA" class="install-icon" />
+      <div class="install-text">
+        <div class="install-title">安装 PMS-PDA</div>
+        <div class="install-subtitle">获得更好的使用体验</div>
+      </div>
+    </div>
+    <div class="install-actions">
+      <button class="install-btn secondary" onclick="dismissInstallPrompt()">稍后</button>
+      <button class="install-btn primary" onclick="installApp()">安装</button>
+    </div>
+  </div>
+  
+  <script>
+    // PWA 安装相关
+    let deferredPrompt;
+    let installPromptElement = document.getElementById('installPrompt');
+    
+    // 监听 beforeinstallprompt 事件
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('PWA 安装提示事件触发');
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // 延迟显示安装提示
+      setTimeout(() => {
+        if (!window.matchMedia('(display-mode: standalone)').matches) {
+          showInstallPrompt();
+        }
+      }, 3000);
+    });
+    
+    // 显示安装提示
+    function showInstallPrompt() {
+      if (installPromptElement && deferredPrompt) {
+        installPromptElement.classList.add('show');
+      }
+    }
+    
+    // 安装应用
+    async function installApp() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('用户选择:', outcome);
+        deferredPrompt = null;
+        dismissInstallPrompt();
+      }
+    }
+    
+    // 关闭安装提示
+    function dismissInstallPrompt() {
+      if (installPromptElement) {
+        installPromptElement.classList.remove('show');
+      }
+    }
+    
+    // 监听应用安装事件
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('PWA 已安装');
+      dismissInstallPrompt();
+    });
+    
+    // Service Worker 注册
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('/sw.js');
+          console.log('Service Worker 注册成功:', registration.scope);
+          
+          // 监听 Service Worker 更新
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('新版本可用，准备更新');
+                // 可以在这里提示用户刷新页面
+                if (confirm('发现新版本，是否立即更新？')) {
+                  window.location.reload();
+                }
+              }
+            });
+          });
+          
+        } catch (error) {
+          console.error('Service Worker 注册失败:', error);
+        }
+      });
+    }
+    
+    // 网络状态监听
+    function updateNetworkStatus() {
+      const isOnline = navigator.onLine;
+      document.body.classList.toggle('offline', !isOnline);
+      
+      // 发送网络状态变化事件
+      window.dispatchEvent(new CustomEvent('networkchange', {
+        detail: { online: isOnline }
+      }));
+    }
+    
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+    updateNetworkStatus();
+    
+    // 防止页面缩放
+    document.addEventListener('gesturestart', function (e) {
+      e.preventDefault();
+    });
+    
+    document.addEventListener('gesturechange', function (e) {
+      e.preventDefault();
+    });
+    
+    document.addEventListener('gestureend', function (e) {
+      e.preventDefault();
+    });
+    
+    // 防止双击缩放
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+    
+    // 隐藏加载屏幕
+    function hideLoading() {
+      const loadingElement = document.getElementById('loading');
+      if (loadingElement) {
+        loadingElement.classList.add('loading-hidden');
+        setTimeout(() => {
+          loadingElement.style.display = 'none';
+        }, 500);
+      }
+    }
+    
+    // 应用加载完成后隐藏加载屏幕
+    window.addEventListener('load', () => {
+      setTimeout(hideLoading, 1000);
+    });
+    
+    // 错误处理
+    window.addEventListener('error', (event) => {
+      console.error('全局错误:', event.error);
+    });
+    
+    window.addEventListener('unhandledrejection', (event) => {
+      console.error('未处理的 Promise 拒绝:', event.reason);
+    });
+  </script>
+  
+  <!-- Vue.js 应用入口 -->
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

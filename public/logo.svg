@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1989fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0066cc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="boxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- 背景圆形 -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" filter="url(#shadow)"/>
+  
+  <!-- 仓库图标 -->
+  <g transform="translate(256,256)">
+    <!-- 主建筑 -->
+    <rect x="-80" y="-40" width="160" height="80" fill="url(#boxGradient)" stroke="#333" stroke-width="2" rx="4"/>
+    
+    <!-- 屋顶 -->
+    <polygon points="-90,-40 0,-80 90,-40" fill="#ff6b35" stroke="#333" stroke-width="2"/>
+    
+    <!-- 门 -->
+    <rect x="-20" y="-10" width="40" height="50" fill="#333" rx="2"/>
+    <rect x="-15" y="-5" width="30" height="40" fill="#666" rx="1"/>
+    
+    <!-- 窗户 -->
+    <rect x="-60" y="-25" width="20" height="15" fill="#87ceeb" stroke="#333" stroke-width="1" rx="1"/>
+    <rect x="40" y="-25" width="20" height="15" fill="#87ceeb" stroke="#333" stroke-width="1" rx="1"/>
+    
+    <!-- 货物箱子 -->
+    <g transform="translate(-50,60)">
+      <rect x="0" y="0" width="25" height="25" fill="#8b4513" stroke="#333" stroke-width="1" rx="2"/>
+      <rect x="2" y="2" width="21" height="21" fill="#a0522d" rx="1"/>
+      <line x1="5" y1="12" x2="20" y2="12" stroke="#333" stroke-width="1"/>
+      <line x1="12" y1="5" x2="12" y2="20" stroke="#333" stroke-width="1"/>
+    </g>
+    
+    <g transform="translate(-15,60)">
+      <rect x="0" y="0" width="25" height="25" fill="#228b22" stroke="#333" stroke-width="1" rx="2"/>
+      <rect x="2" y="2" width="21" height="21" fill="#32cd32" rx="1"/>
+      <line x1="5" y1="12" x2="20" y2="12" stroke="#333" stroke-width="1"/>
+      <line x1="12" y1="5" x2="12" y2="20" stroke="#333" stroke-width="1"/>
+    </g>
+    
+    <g transform="translate(20,60)">
+      <rect x="0" y="0" width="25" height="25" fill="#dc143c" stroke="#333" stroke-width="1" rx="2"/>
+      <rect x="2" y="2" width="21" height="21" fill="#ff6347" rx="1"/>
+      <line x1="5" y1="12" x2="20" y2="12" stroke="#333" stroke-width="1"/>
+      <line x1="12" y1="5" x2="12" y2="20" stroke="#333" stroke-width="1"/>
+    </g>
+    
+    <!-- 扫描枪图标 -->
+    <g transform="translate(60,-60) rotate(45)">
+      <!-- 扫描枪主体 -->
+      <rect x="-15" y="-3" width="30" height="6" fill="#333" rx="3"/>
+      <rect x="-12" y="-2" width="24" height="4" fill="#666" rx="2"/>
+      
+      <!-- 扫描枪手柄 -->
+      <rect x="-20" y="-8" width="8" height="16" fill="#333" rx="4"/>
+      <rect x="-18" y="-6" width="4" height="12" fill="#666" rx="2"/>
+      
+      <!-- 扫描光束 -->
+      <g opacity="0.7">
+        <line x1="15" y1="0" x2="35" y2="0" stroke="#ff0000" stroke-width="2"/>
+        <line x1="15" y1="-2" x2="30" y2="-2" stroke="#ff0000" stroke-width="1" opacity="0.5"/>
+        <line x1="15" y1="2" x2="30" y2="2" stroke="#ff0000" stroke-width="1" opacity="0.5"/>
+      </g>
+    </g>
+    
+    <!-- 条码图标 -->
+    <g transform="translate(-60,60)">
+      <rect x="0" y="0" width="2" height="20" fill="#333"/>
+      <rect x="4" y="0" width="1" height="20" fill="#333"/>
+      <rect x="7" y="0" width="3" height="20" fill="#333"/>
+      <rect x="12" y="0" width="1" height="20" fill="#333"/>
+      <rect x="15" y="0" width="2" height="20" fill="#333"/>
+      <rect x="19" y="0" width="1" height="20" fill="#333"/>
+      <rect x="22" y="0" width="3" height="20" fill="#333"/>
+    </g>
+    
+    <!-- 检查标记 -->
+    <g transform="translate(70,70)">
+      <circle cx="0" cy="0" r="12" fill="#00ff00" stroke="#333" stroke-width="2"/>
+      <path d="M-6,0 L-2,4 L6,-4" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+  
+  <!-- 应用名称 -->
+  <text x="256" y="450" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white">PMS-PDA</text>
+  <text x="256" y="480" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="white" opacity="0.9">仓库分拣系统</text>
+</svg>

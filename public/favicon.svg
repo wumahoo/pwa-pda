@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1989fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0066cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="32" height="32" fill="url(#bgGrad)" rx="6"/>
+  
+  <!-- 仓库简化图标 -->
+  <g transform="translate(16,16)">
+    <!-- 主建筑 -->
+    <rect x="-8" y="-4" width="16" height="8" fill="white" stroke="none" rx="1"/>
+    
+    <!-- 屋顶 -->
+    <polygon points="-10,-4 0,-8 10,-4" fill="#ff6b35"/>
+    
+    <!-- 门 -->
+    <rect x="-2" y="-1" width="4" height="5" fill="#333" rx="0.5"/>
+    
+    <!-- 货物箱子 -->
+    <rect x="-6" y="6" width="3" height="3" fill="#8b4513" rx="0.5"/>
+    <rect x="-2" y="6" width="3" height="3" fill="#228b22" rx="0.5"/>
+    <rect x="2" y="6" width="3" height="3" fill="#dc143c" rx="0.5"/>
+    
+    <!-- 扫描标记 -->
+    <circle cx="8" cy="-8" r="2" fill="#00ff00"/>
+    <path d="M6,-8 L7,-7 L10,-10" stroke="white" stroke-width="0.5" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
