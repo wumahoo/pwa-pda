@@ -101,10 +101,11 @@ export interface User {
   id: string
   username: string
   name: string
-  role: string
+  roles: string[]
   warehouseId: string
   avatar?: string
   department?: string
+  token?: string
 }
 
 // 应用配置接口
