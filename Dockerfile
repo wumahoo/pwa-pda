@@ -18,7 +18,7 @@ COPY . .
 RUN pnpm build
 
 # Production stage
-FROM nginx:stable-alpine AS production-stage
+FROM nginx:1.27.4-alpine AS production-stage
 
 # Copy built assets from the build stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
