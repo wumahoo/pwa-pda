@@ -25,7 +25,7 @@
       </div>
       <div class="user-info">
         <div class="user-name">{{ userInfo.name || userInfo.username }}</div>
-        <div class="user-role">{{ userInfo.role || '分拣员' }}</div>
+        <div class="user-role">{{ userInfo.roles || '分拣员' }}</div>
         <div class="user-department">{{ userInfo.department || '仓储部' }}</div>
       </div>
       <div class="user-status">
