@@ -76,7 +76,7 @@ class ApiService {
   private timeout: number
 
   constructor() {
-    this.baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
+    this.baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://pms.huaquai.cn/api'
     this.timeout = 10000 // 10秒超时
   }
 
