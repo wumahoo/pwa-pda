@@ -542,9 +542,15 @@ onUnmounted(() => {
 <style scoped>
 .scanner-container {
   height: 100vh;
+  height: 100dvh; /* 动态视口高度 */
   display: flex;
   flex-direction: column;
   background-color: #f7f8fa;
+  position: relative;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .task-info {
@@ -749,6 +755,106 @@ onUnmounted(() => {
 
 .success-actions {
   margin-top: 24px;
+}
+
+/* 移动端和PDA设备优化 */
+@media screen and (max-width: 768px) {
+  .task-info {
+    padding: 12px;
+  }
+  
+  .camera-container {
+    height: 200px;
+  }
+  
+  .scan-frame {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .scan-controls {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .scan-results {
+    padding: 12px;
+  }
+  
+  .bottom-bar {
+    padding: 12px;
+  }
+}
+
+/* PDA设备特殊优化 */
+@media screen and (max-width: 480px) {
+  .task-info {
+    padding: 8px;
+  }
+  
+  .task-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .camera-container {
+    height: 150px;
+  }
+  
+  .scan-frame {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .scan-controls {
+    padding: 8px;
+    gap: 8px;
+    flex-direction: column;
+  }
+  
+  .scan-controls .van-button {
+    width: 100%;
+    height: 44px;
+  }
+  
+  .manual-input {
+    padding: 8px;
+  }
+  
+  .scan-results {
+    padding: 8px;
+  }
+  
+  .result-item {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .bottom-bar {
+    padding: 8px;
+  }
+}
+
+/* 横屏模式优化 */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .camera-container {
+    height: 120px;
+  }
+  
+  .scan-frame {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .scan-controls {
+    flex-direction: row;
+    padding: 8px 16px;
+  }
+  
+  .task-info {
+    padding: 8px 16px;
+  }
 }
 
 /* 深色模式适配 */

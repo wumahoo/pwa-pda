@@ -406,9 +406,14 @@ onUnmounted(() => {
 <style scoped>
 .task-list-container {
   height: 100vh;
+  height: 100dvh; /* 动态视口高度 */
   display: flex;
   flex-direction: column;
   background-color: #f7f8fa;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .status-bar {
@@ -504,6 +509,78 @@ onUnmounted(() => {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* 移动端和PDA设备优化 */
+@media screen and (max-width: 768px) {
+  .status-bar {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .task-stats {
+    padding: 12px;
+  }
+  
+  .stat-number {
+    font-size: 20px;
+  }
+  
+  .task-card {
+    margin: 6px 12px;
+  }
+}
+
+/* PDA设备特殊优化 */
+@media screen and (max-width: 480px) {
+  .status-bar {
+    padding: 4px 8px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .task-stats {
+    padding: 8px;
+  }
+  
+  .stat-number {
+    font-size: 18px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
+  
+  .task-card {
+    margin: 4px 8px;
+  }
+  
+  .task-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .task-info {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* 横屏模式优化 */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .task-stats {
+    padding: 8px 16px;
+  }
+  
+  .stat-number {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  
+  .stat-label {
+    font-size: 10px;
   }
 }
 

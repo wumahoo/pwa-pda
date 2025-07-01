@@ -551,9 +551,14 @@ onMounted(async () => {
 <style scoped>
 .task-detail-container {
   height: 100vh;
+  height: 100dvh; /* 动态视口高度 */
   display: flex;
   flex-direction: column;
   background-color: #f7f8fa;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .task-info,
@@ -678,6 +683,129 @@ onMounted(async () => {
   display: flex;
   gap: 16px;
   margin-top: 20px;
+}
+
+/* 移动端和PDA设备优化 */
+@media screen and (max-width: 768px) {
+  .task-info {
+    padding: 12px;
+  }
+  
+  .task-progress {
+    padding: 12px;
+  }
+  
+  .progress-stats {
+    gap: 16px;
+  }
+  
+  .stat-number {
+    font-size: 20px;
+  }
+  
+  .item-filter {
+    padding: 8px 12px;
+  }
+  
+  .item-card {
+    margin: 6px 12px;
+  }
+  
+  .bottom-bar {
+    padding: 12px;
+  }
+}
+
+/* PDA设备特殊优化 */
+@media screen and (max-width: 480px) {
+  .task-info {
+    padding: 8px;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .task-progress {
+    padding: 8px;
+  }
+  
+  .progress-stats {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .stat-number {
+    font-size: 18px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
+  
+  .item-filter {
+    padding: 6px 8px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .item-card {
+    margin: 4px 8px;
+  }
+  
+  .item-content {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .item-info {
+    flex: 1;
+  }
+  
+  .item-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .bottom-bar {
+    padding: 8px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .bottom-bar .van-button {
+    width: 100%;
+  }
+}
+
+/* 横屏模式优化 */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .task-info {
+    padding: 8px 16px;
+  }
+  
+  .task-progress {
+    padding: 8px 16px;
+  }
+  
+  .progress-stats {
+    gap: 20px;
+  }
+  
+  .stat-number {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  
+  .stat-label {
+    font-size: 10px;
+  }
+  
+  .item-filter {
+    padding: 6px 16px;
+  }
 }
 
 /* 深色模式适配 */
